@@ -2,7 +2,7 @@
 /**
  * あふｗ で Cygwin のシンボリックリンクを扱うためのスクリプト
  *
- * Version: 1.0
+ * Version: 1.1
  * License: MIT
  * URI: https://github.com/m4i/afx-tools
  *
@@ -131,7 +131,7 @@ function cygpath_w(unix_path) {
  * dereference symbolic link
  */
 function dereference(path) {
-  if (FSO.FileExists(path)) {
+  try {
     var file = FSO.GetFile(path);
     if (file.Attributes & ATTRIBUTES.System) {
       var text = file.OpenAsTextStream(IOMODE.ForReading, FORMAT.TristateTrue);
@@ -139,7 +139,7 @@ function dereference(path) {
         return cygpath_w(text.ReadAll().slice(0, -1));
       }
     }
-  }
+  } catch(e) {}
   return null;
 }
 
